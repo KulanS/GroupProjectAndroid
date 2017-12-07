@@ -20,6 +20,9 @@ public class ViewListActivity extends AppCompatActivity {
     private Button btnFetch;
     DatabaseHelper mDatabaseHeper;
     ListView lvShowList;
+    static ArrayList<String> listData;
+    static String[] listItems;
+
 
 
 
@@ -46,18 +49,41 @@ public class ViewListActivity extends AppCompatActivity {
         Log.d(TAG, "populateList: Displaying the data in ListView.");
         Cursor data = mDatabaseHeper.getData(); //get the data and append to a list
         ArrayList<String> listData = new ArrayList<String>();
-        while(data.moveToNext()){
+        while(data.moveToNext()) {
             listData.add(data.getString(1)); //get data from coloum 1 and add to arraylist
+
+        }
+        listItems = new String[listData.size()];
+        for(int i = 0; i<listItems.length; i++){
+            listItems[i] = listData.get(i);
+
         }
 
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData); //create the list adapter and set the adapter
         lvShowList.setAdapter(adapter);
     }
 
+    public String[] getList(){
+        Log.d(TAG, "populateList: Displaying the data in ListView.");
+        Cursor data = mDatabaseHeper.getData(); //get the data and append to a list
+        ArrayList<String> listData = new ArrayList<String>();
+        while(data.moveToNext()){
+            listData.add(data.getString(1)); //get data from coloum 1 and add to arraylist
+
+        }
+        String[] itemList = new String[listData.size()];
+        for(int i = 0; i<listData.size(); i++){
+            itemList[i] = listData.get(i);
+        }
+
+        return itemList;
+    }
+
     private void fetchData(){       /*get the data from the database as a jason*/
         GetDataClass process = new GetDataClass();
         if(CheckNetworkClass.isInternetAvailable(ViewListActivity.this)){
-            process.execute();
+            //process.execute();    //optional method
+            process.getJSON("https://api.myjson.com/bins/19mp3b");
         }else{
             toastMessage("No Internet Connection");
         }
