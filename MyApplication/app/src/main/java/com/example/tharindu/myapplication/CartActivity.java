@@ -57,7 +57,13 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void clickEditList(){
-
+        btnEditList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CartActivity.this, CorrectionActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void clickBack(){

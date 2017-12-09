@@ -15,7 +15,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -28,6 +30,8 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
     static String[] notMatches;
     static ArrayList<String> matchAL;
     static HashMap<String,ArrayList<String>> map;
+    static ArrayList<String> shopAL;
+    static ArrayList<String> exactShop;
     String test;
 
 
@@ -80,6 +84,9 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*for(int i = 0; i<shopAL.size(); i++){
+                    Log.d(shopAL.get(i), "***********");
+                }*/
 
             }
 
@@ -140,10 +147,10 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
         findMatches();
         String notFound = "";
         String temp = ", ";
-        for(int i = 0; i<notMatches.length; i++){
-            notFound = notMatches[i] + temp;
-            //Log.d(notFound, "***********");
-        }
+        /*for(int i = 0; i<shopAL.size(); i++){
+            notFound = shopAL.get(i);
+            Log.d(notFound, "***********");
+        }*/
 
 
     }
@@ -152,24 +159,29 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
         JSONArray jsonArray = new JSONArray(json);
         map = new HashMap<String,ArrayList<String>>();
         matchAL = new ArrayList<String>();
+        shopAL = new ArrayList<String>();
         int n = jsonArray.length();
         for (int i = 0; i < n; i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
-            String item = obj.getString("name");
+            String item = obj.getString("item_name");
                 if(!matchAL.contains(item)){
                     matchAL.add(item);
                 }
-            Log.d(matchAL.get(i),"**********");
+            //Log.d(matchAL.get(i),"**********");
         }
 
         for(int i = 0; i<matchAL.size(); i++){
             ArrayList<String> shops = new ArrayList<String>();
             for (int j = 0; j<n; j++){
                 JSONObject obj = jsonArray.getJSONObject(j);
-                if(obj.getString("name")==matchAL.get(i)){
-                    shops.add(obj.getString("age"));
-                    Log.d(obj.getString("age"),"**********");
+                if(obj.getString("item_name")==matchAL.get(i)){
+                    shops.add(obj.getString("shop_shop_id"));
+                    if(!shopAL.contains(obj.getString("shop_shop_id"))){
+                        shopAL.add(obj.getString("shop_shop_id"));
+                    }
+                    //Log.d(shopAL.get(i),"**********");
                 }
+
 
             }
             map.put(matchAL.get(i), shops);
@@ -177,13 +189,32 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
         }
         List<String> a = new ArrayList<String>(map.keySet());
         for (int i =0; i<a.size();i++){
-            Log.d(a.get(i),"*+*+*+*+*+*+*+*");
+            //Log.d(a.get(i),"*+*+*+*+*+*+*+*");
         }
         //Log.d(map.,"*+*+*+*+*+*+*+*");
     }
 
-    private int howManyShops(){
-        return 0;
+    private void commonShops(){
+        exactShop = new ArrayList<String>();
+        for(String shop: shopAL){
+            if(isExists(shop)){
+                exactShop.add(shop);
+            }
+        }
+    }
+
+    private boolean isExists(String s){    /*check each arraylist in hashmap wheather shop exists*/
+        Iterator iter = (Iterator) map.keySet().iterator();
+
+        while(iter.hasNext()) {
+
+            Map.Entry entry = (Map.Entry) iter.next();
+            ArrayList<String> result = (ArrayList<String>) entry.getValue();
+            if(!result.contains(s)){
+                return false;
+            }
+        }
+        return true;
     }
 
     private int howManyMatches(){       /*checks how many items maches from database*/

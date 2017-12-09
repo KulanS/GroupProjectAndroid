@@ -63,7 +63,7 @@ public class ViewListActivity extends AppCompatActivity {
         lvShowList.setAdapter(adapter);
     }
 
-    public String[] getList(){
+    /*public String[] getList(){
         Log.d(TAG, "populateList: Displaying the data in ListView.");
         Cursor data = mDatabaseHeper.getData(); //get the data and append to a list
         ArrayList<String> listData = new ArrayList<String>();
@@ -77,13 +77,14 @@ public class ViewListActivity extends AppCompatActivity {
         }
 
         return itemList;
-    }
+    }*/
 
     private void fetchData(){       /*get the data from the database as a jason*/
         GetDataClass process = new GetDataClass();
         if(CheckNetworkClass.isInternetAvailable(ViewListActivity.this)){
             //process.execute();    //optional method
-            process.getJSON("https://api.myjson.com/bins/19mp3b");
+            //process.getJSON("https://api.myjson.com/bins/19mp3b");
+            process.getJSON("http://192.168.191.1/Ishop/Receive/new");
         }else{
             toastMessage("No Internet Connection");
         }

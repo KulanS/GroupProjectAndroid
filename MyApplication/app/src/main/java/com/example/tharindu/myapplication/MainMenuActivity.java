@@ -19,7 +19,7 @@ public class MainMenuActivity extends AppCompatActivity {
         clickShops();
         clickProfile();
         clickSettings();
-        //clickLogOut();
+        clickLogOut();
 
     }
 
@@ -77,7 +77,13 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void clickLogOut(){
-
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainMenuActivity.this, BeaconActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 }
