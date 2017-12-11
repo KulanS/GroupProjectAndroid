@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ public class CorrectionActivity extends AppCompatActivity {
     private ListView lvWrongList;
     private TextView tvWrongWord;
     private AutoCompleteTextView etCorrectWord;
-    private static final String[] suggestions = new String[GetDataClass.matchAL.size()];
+    private static final String[] suggestions = new String[GetDataClass.itemKeys.size()];
 
     ArrayAdapter<String> adapter;
     @Override
@@ -30,7 +29,7 @@ public class CorrectionActivity extends AppCompatActivity {
 
         init();
         clickSave();
-        populateList(GetDataClass.matchAL);
+        populateList(GetDataClass.itemKeys);
         autoComplete();
     }
 
@@ -58,8 +57,8 @@ public class CorrectionActivity extends AppCompatActivity {
 
     private void autoComplete(){
 
-        for(int i = 0; i<GetDataClass.matchAL.size(); i++){
-            suggestions[i] = GetDataClass.matchAL.get(i);
+        for(int i = 0; i<GetDataClass.itemKeys.size(); i++){
+            suggestions[i] = GetDataClass.itemKeys.get(i);
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestions);

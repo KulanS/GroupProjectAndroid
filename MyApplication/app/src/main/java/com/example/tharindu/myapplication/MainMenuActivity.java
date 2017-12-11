@@ -21,6 +21,7 @@ public class MainMenuActivity extends AppCompatActivity {
         clickSettings();
         clickLogOut();
 
+
     }
 
     private void init(){ //mapping xml and java

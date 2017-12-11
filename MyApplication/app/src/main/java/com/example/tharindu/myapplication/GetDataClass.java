@@ -1,9 +1,7 @@
 package com.example.tharindu.myapplication;
 
-import android.Manifest;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,11 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this class is used to perform jason operations*/
     String data;
@@ -28,11 +22,15 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
     static String[] heroes;
     static String[] matches;
     static String[] notMatches;
-    static ArrayList<String> matchAL;
+    static ArrayList<String> itemKeys;
     static HashMap<String,ArrayList<String>> map;
-    static ArrayList<String> shopAL;
+    static ArrayList<String> shopKeys;
     static ArrayList<String> exactShop;
+    static ArrayList<String> itemForTable;
+    static ArrayList<String> shopForTable;
     String test;
+
+
 
 
     @Override
@@ -76,17 +74,19 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                FetchResultsActivity.tvShowJason.setText(s);
+                //FetchResultsActivity.tvShowJason.setText(s);
                 jsonString = s;
                 try {
                     loadIntoListView(s);
+
                     findShop(s);
+                    fillDb(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                /*for(int i = 0; i<shopAL.size(); i++){
-                    Log.d(shopAL.get(i), "***********");
-                }*/
+                for(int i = 0; i<itemForTable.size(); i++){
+                    Log.d(itemForTable.get(i), "***********");
+                }
 
             }
 
@@ -140,15 +140,15 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
-            heroes[i] = obj.getString("name");
+            heroes[i] = obj.getString("item_name");
 
             }
 
         findMatches();
         String notFound = "";
         String temp = ", ";
-        /*for(int i = 0; i<shopAL.size(); i++){
-            notFound = shopAL.get(i);
+        /*for(int i = 0; i<shopKeys.size(); i++){
+            notFound = shopKeys.get(i);
             Log.d(notFound, "***********");
         }*/
 
@@ -158,45 +158,45 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
     public void findShop(String json) throws JSONException{
         JSONArray jsonArray = new JSONArray(json);
         map = new HashMap<String,ArrayList<String>>();
-        matchAL = new ArrayList<String>();
-        shopAL = new ArrayList<String>();
+        itemKeys = new ArrayList<String>();
+        shopKeys = new ArrayList<String>();
         int n = jsonArray.length();
         for (int i = 0; i < n; i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             String item = obj.getString("item_name");
-                if(!matchAL.contains(item)){
-                    matchAL.add(item);
+                if(!itemKeys.contains(item)){
+                    itemKeys.add(item);  //getting item key
                 }
-            //Log.d(matchAL.get(i),"**********");
+            //Log.d(itemKeys.get(i),"**********");
         }
 
-        for(int i = 0; i<matchAL.size(); i++){
+        for(int i = 0; i< itemKeys.size(); i++){
             ArrayList<String> shops = new ArrayList<String>();
             for (int j = 0; j<n; j++){
                 JSONObject obj = jsonArray.getJSONObject(j);
-                if(obj.getString("item_name")==matchAL.get(i)){
-                    shops.add(obj.getString("shop_shop_id"));
-                    if(!shopAL.contains(obj.getString("shop_shop_id"))){
-                        shopAL.add(obj.getString("shop_shop_id"));
+                if(obj.getString("item_name")== itemKeys.get(i)){
+                    shops.add(obj.getString("shop_shop_id"));   //getting arraylist
+                    if(!shopKeys.contains(obj.getString("shop_shop_id"))){
+                        shopKeys.add(obj.getString("shop_shop_id"));  //getting shop key
                     }
-                    //Log.d(shopAL.get(i),"**********");
+                    //Log.d(shopKeys.get(i),"**********");
                 }
 
 
             }
-            map.put(matchAL.get(i), shops);
+            map.put(itemKeys.get(i), shops);     //adding array list for each key
 
         }
-        List<String> a = new ArrayList<String>(map.keySet());
+        /*List<String> a = new ArrayList<String>(map.keySet());
         for (int i =0; i<a.size();i++){
             //Log.d(a.get(i),"*+*+*+*+*+*+*+*");
-        }
+        }*/
         //Log.d(map.,"*+*+*+*+*+*+*+*");
     }
 
     private void commonShops(){
         exactShop = new ArrayList<String>();
-        for(String shop: shopAL){
+        for(String shop: shopKeys){
             if(isExists(shop)){
                 exactShop.add(shop);
             }
@@ -215,6 +215,30 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
             }
         }
         return true;
+    }
+
+    private void fillDb(String json)throws JSONException{   //this methods add json data to sqlite databse without repitions
+
+        itemForTable = new ArrayList<String>();
+        shopForTable = new ArrayList<String>();
+        JSONArray jsonArray = new JSONArray(json);
+        int n = jsonArray.length();
+        int m = itemForTable.size();
+        for(int i = 0; i<n; i++){
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String itemName = obj.getString("item_name");
+            String shopName = obj.getString("shop_shop_id");
+            itemForTable.add(itemName);
+            shopForTable.add(shopName);
+            if(m!=0){
+                for(int j = 0; j<=m; j++) {
+                    if (itemName == itemForTable.get(j) & shopName == shopForTable.get(j)) {
+                    itemForTable.remove(m);
+                    shopForTable.remove(m);
+                    }
+                }
+            }
+        }
     }
 
     private int howManyMatches(){       /*checks how many items maches from database*/

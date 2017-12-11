@@ -29,9 +29,9 @@ public class BeaconActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.beacon_activity);
 
-        EstimoteSDK.initialize(getApplicationContext(),"<oswucsc@gmail.com>", "<oswucsc>");
+        EstimoteSDK.initialize(getApplicationContext(),"kgks999-gmail-com-s-notifi-e97", "dcfebbbb49f18f3bc7cc935de13d24e3");
 
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+        /*beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override public void onServiceReady() {
                 beaconManager.startLocationDiscovery();
             }
@@ -42,7 +42,7 @@ public class BeaconActivity extends AppCompatActivity {
             public void onLocationsFound(List<EstimoteLocation> beacons) {
                 Log.d("LocationListener", "Nearby beacons: " + beacons);
             }
-        });
+        });*/
 
         // 2. Initialize the beacon manager by connecting to the scanning service
 
@@ -54,13 +54,13 @@ public class BeaconActivity extends AppCompatActivity {
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 
-    @Override
-    protected void onDestroy() {
+    //@Override
+    /*protected void onDestroy() {
         super.onDestroy();
-        beaconManager.disconnect();
-    }
+        //beaconManager.disconnect();
+    }*/
 
-    private boolean notificationAlreadyShown = false;
+    /*private boolean notificationAlreadyShown = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void showNotification(String title, String message) {
@@ -99,7 +99,7 @@ public class BeaconActivity extends AppCompatActivity {
                 showNotification("Hello world", "Looks like you're near a beacon.");
             }
         }
-    }
+    }*/
 
 
 }

@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -17,9 +18,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
     dependencies{
-        //compile 'com.estimote:sdk:1.4.0'
+
     }
 }
 

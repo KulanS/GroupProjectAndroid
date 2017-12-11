@@ -51,7 +51,6 @@ public class ViewListActivity extends AppCompatActivity {
         ArrayList<String> listData = new ArrayList<String>();
         while(data.moveToNext()) {
             listData.add(data.getString(1)); //get data from coloum 1 and add to arraylist
-
         }
         listItems = new String[listData.size()];
         for(int i = 0; i<listItems.length; i++){
@@ -80,11 +79,14 @@ public class ViewListActivity extends AppCompatActivity {
     }*/
 
     private void fetchData(){       /*get the data from the database as a jason*/
-        GetDataClass process = new GetDataClass();
+        GetDataClass processItem = new GetDataClass();
+        GetShopClass processShop = new GetShopClass();
         if(CheckNetworkClass.isInternetAvailable(ViewListActivity.this)){
             //process.execute();    //optional method
             //process.getJSON("https://api.myjson.com/bins/19mp3b");
-            process.getJSON("http://192.168.191.1/Ishop/Receive/new");
+            //process.getJSON("http://192.168.43.80/ishop/retrieve.php");
+            processItem.getJSON("https://api.myjson.com/bins/6axhz");//for item
+            processShop.getJSON("https://api.myjson.com/bins/gkgqn");//for shop
         }else{
             toastMessage("No Internet Connection");
         }
