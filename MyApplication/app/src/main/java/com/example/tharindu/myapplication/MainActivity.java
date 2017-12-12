@@ -1,79 +1,104 @@
 package com.example.tharindu.myapplication;
 
+
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.estimote.coresdk.common.config.EstimoteSDK;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
-import com.estimote.coresdk.recognition.packets.EstimoteLocation;
-import com.estimote.coresdk.service.BeaconManager;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-    private EditText etEmail, etPassword, etAreYouNotRegisterded;
-    private Button btnLogIn, btnSignUp;
-    BeaconManager beaconManager;
 
+    private EditText etUsername, etPassword;
+    private Button btnLogIn, btnSignUp;
+    String name,password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        //EstimoteSDK.initialize(getApplicationContext(), "kgks999-gmail-com-s-notifi-e97", "dcfebbbb49f18f3bc7cc935de13d24e3");
-        init();
-        clickSignUp();
-        clickLogin();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
 
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-//        NotificationsClass app = (NotificationsClass) getApplication();
-//
-//        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
-//            Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
-//            Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-//            Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-//        } else if (!app.isBeaconNotificationsEnabled()) {
-//            Log.d(TAG, "Enabling beacon notifications");
-//            app.enableBeaconNotifications();
-//        }
-    }
+        final EditText etPassword = (EditText)findViewById(R.id.etPassword);
+        final  Button btnLogIn = (Button)findViewById(R.id.btnLogIn);
+        final Button btnSignUp = (Button)findViewById(R.id.btnSignUp);
+        final EditText etUsername=(EditText)findViewById(R.id.etUsername);
 
 
-    /*private void scan(){
-        beaconManager.startLocationDiscovery();
-    }
+        btnLogIn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                final String name =etUsername.getText().toString();
+                final String password=etPassword.getText().toString();
 
-    private void getBeacons(){
-        beaconManager.setLocationListener(new BeaconManager.LocationListener() {
+                Response.Listener<String> responseListener =new Response.Listener<String>(){
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success=jsonResponse.getBoolean("success");
+
+                            if(success){
+                                Intent intent = new Intent(MainActivity.this ,MainMenuActivity.class );
+                                MainActivity.this.startActivity(intent);
+
+                            }
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setMessage("login Failed")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+                LoginReq loginreq = new LoginReq(name, password,responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                queue.add(loginreq);
+
+            }
+
+        });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationsFound(List<EstimoteLocation> beacons) {
-                Log.d("LocationListener", "Nearby beacons: " + beacons);
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(i);
             }
         });
-    }*/
 
 
-    private void init(){ //mapping xml and java
-        etEmail = (EditText)findViewById(R.id.etEmail);
-        etPassword = (EditText)findViewById(R.id.etPassword);
-        btnLogIn = (Button)findViewById(R.id.btnLogIn);
-        btnSignUp = (Button)findViewById(R.id.btnSignUp);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        NotificationsClass app = (NotificationsClass) getApplication();
+
+        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
+            //Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
+            //Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
+            //Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
+        } else if (!app.isBeaconNotificationsEnabled()) {
+            //Log.d(TAG, "Enabling beacon notifications");
+            app.enableBeaconNotifications();
+        }
     }
 
     private void clickSignUp(){ //what happens when click signup button
@@ -86,13 +111,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void clickLogin(){ //what happens when click login button
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
-                startActivity(i);
-            }
-        });
-    }
 }

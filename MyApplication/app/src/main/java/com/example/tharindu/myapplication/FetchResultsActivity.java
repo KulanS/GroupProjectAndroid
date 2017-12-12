@@ -1,6 +1,8 @@
 package com.example.tharindu.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +40,22 @@ public class FetchResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadIntoListView(GetDataClass.matches);
+                if(GetDataClass.notMatches.size() != 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FetchResultsActivity.this);
+                    builder.setMessage("You have mismatching items. please correct them")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent j = new Intent(FetchResultsActivity.this, CorrectionActivity.class);
+                                    startActivity(j);
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+
+                //Intent i = new Intent(FetchResultsActivity.this, CorrectionActivity.class);
+                //startActivity(i);
                 /*if(GetDataClass.notMatches.length!=0){
                     GetDataClass gdc = new GetDataClass();
                     toastMessage(gdc.misMatches());

@@ -157,10 +157,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor getNotification(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " +COL9+ " FROM " + TABLE_NAME_3 + " WHERE " +COL5+ " = 1";
+        String query = "SELECT " +COL9+ " FROM " + TABLE_NAME_3 + " WHERE " +COL5+ " VALUE = 1";
         //String query = "SELECT * FROM " + TABLE_NAME_3;
         Cursor data = db.rawQuery(query, null);
+        Log.d("Query run notification", "********");
         return data;
+
     }
 
 
@@ -213,6 +215,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME_2 + ", " + TABLE_NAME_3 + " WHERE " + TABLE_NAME_2 + "." + COL4 + " = " + TABLE_NAME_3 + "." + COL5 + " GROUP BY " + TABLE_NAME_3 + "." + COL6;
         //String query = "SELECT * FROM " + TABLE_NAME_3;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public Cursor getItemShopDataInnerJoin(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME_2 + ", " + TABLE_NAME_3 + " [INNER] JOIN " + TABLE_NAME_3 + " ON " + TABLE_NAME_2 + "." + COL4 + " = " + TABLE_NAME_3 + "." + COL5;// + " GROUP BY " + TABLE_NAME_3 + "." + COL5;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public Cursor getAllFromItemShopData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " +TABLE_NAME_3+ " GROUP BY "+COL6;
         Cursor data = db.rawQuery(query, null);
         return data;
     }

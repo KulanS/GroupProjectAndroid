@@ -30,16 +30,14 @@ public class NotificationsClass extends Application{
 
     public void enableBeaconNotifications() {
 
-        DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
-        Cursor data= mDatabaseHelper.getNotification();
-        String message = data.getString(1);
+
         if (beaconNotificationsEnabled) { return; }
 
         BeaconNotificationsManager beaconNotificationsManager = new BeaconNotificationsManager(this);
         beaconNotificationsManager.addNotification(
                 "d0c4542b336fc08e3655d92ab398683a",
-                message,
-                "Goodbye, world.");
+                "Tap here to get notifications",
+                "Goodbye");
         beaconNotificationsManager.startMonitoring();
 
         beaconNotificationsEnabled = true;

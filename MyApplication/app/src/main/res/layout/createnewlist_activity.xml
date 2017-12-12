@@ -55,7 +55,7 @@
         tools:layout_editor_absoluteX="14dp">
 
         <Button
-            android:id="@+id/btnAdd"
+            android:id="@+id/btnAdds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btnAdd"
-            android:layout_toRightOf="@+id/btnAdd"
+            android:layout_toEndOf="@+id/btnAdds"
+            android:layout_toRightOf="@+id/btnAdds"
             android:text="Delete" />
 
         <Button

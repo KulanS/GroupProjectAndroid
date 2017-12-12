@@ -1,6 +1,8 @@
 package com.example.tharindu.myapplication;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -21,7 +23,7 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
     String jsonString;
     static String[] heroes;
     static String[] matches;
-    static String[] notMatches;
+    static ArrayList<String> notMatches;
     static ArrayList<String> itemKeys;
     static HashMap<String,ArrayList<String>> map;
     static ArrayList<String> shopKeys;
@@ -145,6 +147,8 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
             }
 
         findMatches();
+        findNotMatches();
+        //ifMisMatches();
         String notFound = "";
         String temp = ", ";
         /*for(int i = 0; i<shopKeys.size(); i++){
@@ -275,7 +279,7 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
 
     private void findMatches(){     /*adds maches to a array*/
         matches = new String[howManyMatches()];
-        notMatches = new String[howManyMismatches()];
+        //notMatches = new String[howManyMismatches()];
         for(int i = 0; i<ViewListActivity.listItems.length; i++){
             int temp = 0;
             for(int j = 0; j<heroes.length; j++){
@@ -289,20 +293,40 @@ public class GetDataClass extends AsyncTask<Void, Void, Void> {       /*this cla
 
             }
             if(temp == heroes.length){
-                notMatches[i]= ViewListActivity.listItems[i].toString();
+                //notMatches[i]= ViewListActivity.listItems[i].toString();
             }
         }
 
     }
 
-    public String misMatches(){
+    private void findNotMatches(){
+        notMatches = new ArrayList<String>();
+        ArrayList<String> tmp = new ArrayList<String>();
+        for(int i =0; i<matches.length; i++){
+            String tmpMatch = matches[i];
+            tmp.add(tmpMatch);
+        }
+
+        for(int i = 0; i<ViewListActivity.listItems.length; i++){
+            if(!(tmp.contains(ViewListActivity.listItems[i]))){
+                notMatches.add(ViewListActivity.listItems[i]);
+            }
+        }
+
+    }
+
+
+
+
+
+    /*public String misMatches(){
         String notFound = "";
         String temp = ", ";
         for(int i = 0; i<notMatches.length; i++){
             notFound = notMatches[i] + temp;
         }
         return  notFound;
-    }
+    }*/
 
     public boolean isExistds(String item){
         return true;

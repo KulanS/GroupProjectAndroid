@@ -9,23 +9,24 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-/**
- * Created by kgks on 8/22/17.
- */
 
-public class RegisterRequestClass extends StringRequest{
-    private static String REGISTER_REQUEST_URL = "https://kgks999.000webhostapp.com/SiginUp.php";
-    private Map<String, String> parms;
+public class   RegisterRequestClass extends StringRequest{
+    private static final String REGISTER_REQUEST_URL = "http://192.168.1.2/Tlog/register.php";
+    private Map<String, String> params;
 
-    public RegisterRequestClass(String name, String email, String password, Response.Listener<String> listener){
+    public RegisterRequestClass(String name, String email, String password,Response.Listener<String> listener){
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
-        parms = new HashMap<>();
-        parms.put("name", name);
-        parms.put("email", email);
-        parms.put("password", password);
+        params = new HashMap<>();
+        params.put("name", name);
+        params.put("email", email);
+        params.put("password", password);
+        //parms.put("compassword",compassword);
     }
 
-    public Map<String, String> getParms() {
-        return parms;
+
+    @Override
+    public Map<String , String> getParams(){
+        return params;
     }
 }
+

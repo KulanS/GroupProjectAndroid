@@ -9,6 +9,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,11 @@ public class CorrectionActivity extends AppCompatActivity {
     private ListView lvWrongList;
     private TextView tvWrongWord;
     private AutoCompleteTextView etCorrectWord;
+    private Button btnAdds;
     private static final String[] suggestions = new String[GetDataClass.itemKeys.size()];
 
     ArrayAdapter<String> adapter;
+    ArrayList<String> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +30,11 @@ public class CorrectionActivity extends AppCompatActivity {
 
 
 
+
         init();
         clickSave();
-        populateList(GetDataClass.itemKeys);
+        clickAdd();
+        populateList(GetDataClass.notMatches);
         autoComplete();
     }
 
@@ -38,6 +43,7 @@ public class CorrectionActivity extends AppCompatActivity {
         lvWrongList = (ListView)findViewById(R.id.lvWrongList);
         tvWrongWord = (TextView)findViewById(R.id.tvWrongWord);
         etCorrectWord = (AutoCompleteTextView) findViewById(R.id.etCorrectWord);
+        btnAdds = (Button)findViewById(R.id.btnAdds);
     }
 
     private void populateList(final ArrayList<String> list){
@@ -68,5 +74,32 @@ public class CorrectionActivity extends AppCompatActivity {
 
     private void clickSave(){
 
+    }
+
+    private void clickAdd(){
+        btnAdds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                add();
+            }
+        });
+    }
+
+    private void add(){
+        int pos = lvWrongList.getCheckedItemPosition();
+        String itemName = etCorrectWord.getText().toString();
+        if(!itemName.isEmpty() && itemName.length()>0){
+            adapter.remove(list.get(pos));
+            adapter.insert(itemName, pos);
+            adapter.notifyDataSetChanged();
+            toastMessage("Updated " + itemName);
+        }else{
+            toastMessage("Nothing to update");
+
+        }
+    }
+
+    private void toastMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

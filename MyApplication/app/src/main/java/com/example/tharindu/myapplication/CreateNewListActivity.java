@@ -1,7 +1,5 @@
 package com.example.tharindu.myapplication;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -53,7 +51,7 @@ public class CreateNewListActivity extends AppCompatActivity {
 
     private void init(){
         etItemName = (EditText)findViewById(R.id.etItemName);
-        btnAdd = (Button)findViewById(R.id.btnAdd);
+        btnAdd = (Button)findViewById(R.id.btnAdds);
         btnDelete = (Button)findViewById(R.id.btnDelete);
         btnUpdate = (Button)findViewById(R.id.btnUpdate);
         btnClear = (Button)findViewById(R.id.btnClear);

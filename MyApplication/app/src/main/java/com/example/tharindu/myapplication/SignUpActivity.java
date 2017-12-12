@@ -1,12 +1,15 @@
 package com.example.tharindu.myapplication;
 
+
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,63 +19,51 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText etName, etEmail, etPassword, etConfirmPassword;
-    private Button btnBack, btnSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
-        init();
-        clickBack();
-        clickSubmit();
-    }
 
-    private void init(){ //mapping xml and java
-        etName = (EditText)findViewById(R.id.etName);
-        etEmail = (EditText)findViewById(R.id.etEmail);
-        etPassword = (EditText)findViewById(R.id.etPassword);
-        etConfirmPassword = (EditText)findViewById(R.id.etConfirmPassword);
-        btnBack = (Button)findViewById(R.id.btnBack);
-        btnSubmit = (Button)findViewById(R.id.btnSubmit);
-    }
+        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
+        final EditText etEmail=(EditText)findViewById(R.id.etEmail);
+        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
 
-    private  void clickBack(){ //what happens when click back button
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
-    }
+        final Button btnSignup = (Button) findViewById(R.id.btnSignup);
 
-    private void clickSubmit(){ //what happens when click submit button
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String name = etName.getText().toString();
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-                String confirmPassword = etConfirmPassword.getText().toString();
+                final String name = etUsername.getText().toString();
+                final String email=etEmail.getText().toString();
+                final String password = etPassword.getText().toString();
 
-                Response.Listener<String> resopnseListener = new Response.Listener<String>(){
+
+
+                Response.Listener<String> responseListener = new Response.Listener<String>(){
+
                     @Override
                     public void onResponse(String response) {
+                        Log.d("aaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaa");
+
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            boolean sucess = jsonResponse.getBoolean("sucess");
-                            if(sucess){
-                                Intent i = new Intent(SignUpActivity.this, MainMenuActivity.class);
-                                startActivity(i);// goto main menu
-                            }else{
+
+
+                            boolean success = jsonResponse.getBoolean("success");
+
+
+                            if (success){
+                                Intent intent = new Intent(SignUpActivity.this, MainMenuActivity.class);
+                                SignUpActivity.this.startActivity(intent);
+                            }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                                builder.setMessage("Sign Up Failed")
+                                builder.setMessage("Register Failed")
                                         .setNegativeButton("Retry", null)
                                         .create()
                                         .show();
-
                             }
 
                         } catch (JSONException e) {
@@ -81,11 +72,16 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 };
 
-                RegisterRequestClass registerRequestClass = new RegisterRequestClass(name, email, password, resopnseListener);
-                RequestQueue queue = Volley.newRequestQueue(SignUpActivity.this);
-                queue.add(registerRequestClass);
 
+                RegisterRequestClass registerRequest = new RegisterRequestClass(name, email, password, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(SignUpActivity.this);
+                queue.add(registerRequest);
             }
         });
     }
+
+
+
+
+
 }

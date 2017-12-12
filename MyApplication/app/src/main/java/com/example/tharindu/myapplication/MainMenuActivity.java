@@ -6,8 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+
 public class MainMenuActivity extends AppCompatActivity {
     private Button btnCart, btnShops, btnProfile, btnSettings, btnLogOut;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

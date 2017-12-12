@@ -82,13 +82,13 @@ public class BeaconNotificationsManager {
     }
 
     private void showNotification(String message) {
-        Intent resultIntent = new Intent(context, CartActivity.class);
+        Intent resultIntent = new Intent(context, PopupActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(
                 context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("Beacon Notifications")
+                .setContentTitle("Welcome to Jayyz Clicks")
                 .setContentText(message)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

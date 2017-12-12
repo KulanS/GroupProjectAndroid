@@ -22,6 +22,7 @@ public class DetailsActivity extends AppCompatActivity implements
     private ListView lvDetails;
     List<ShopClass> shopClassItems;
     DatabaseHelper mDatabaseHelper;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +36,6 @@ public class DetailsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
-        NotificationsClass app = (NotificationsClass) getApplication();
-
-        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
-            //Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
-            //Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-            //Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-        } else if (!app.isBeaconNotificationsEnabled()) {
-            //Log.d(TAG, "Enabling beacon notifications");
-            app.enableBeaconNotifications();
-        }
     }
 
     private void init(){
@@ -57,11 +48,14 @@ public class DetailsActivity extends AppCompatActivity implements
     private void populateFromTable(){
         mDatabaseHelper = new DatabaseHelper(this);
         Cursor data = mDatabaseHelper.getItemShopData();
+        //Cursor data = mDatabaseHelper.getItemShopDataInnerJoin();
         shopClassItems = new ArrayList<ShopClass>();
+
         while(data.moveToNext()) {
 
             String item = data.getString(1);
             String items = data.getString(5);
+            address = data.getString(7);
             ShopClass itemss = new ShopClass(item, items);
             shopClassItems.add(itemss); //get data from coloum 1 and add to arraylist
         }
@@ -71,13 +65,14 @@ public class DetailsActivity extends AppCompatActivity implements
         Log.d(data.getColumnName(4),"*****4*");
         Log.d(data.getColumnName(5),"*****5*");
         Log.d(data.getColumnName(6),"*****6*");
+        Log.d(data.getColumnName(7),"*****7*");
 
 
         CustomListViewAdapter adapter = new CustomListViewAdapter(this,
                 R.layout.list_item, shopClassItems);
         lvDetails.setAdapter(adapter);
         //lvDetails.getOnItemClickListener();
-        //lvDetails.setOnItemClickListener(this);
+        lvDetails.setOnItemClickListener(this);
 
         /*shopClassItems = new ArrayList<ShopClass>();
         for(int i = 0; i<GetShopClass.shopID.size(); i++){
@@ -95,7 +90,7 @@ public class DetailsActivity extends AppCompatActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Item " + (position + 1) + ": " + shopClassItems.get(position),
+                "adress :" +address,
                 Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.show();
