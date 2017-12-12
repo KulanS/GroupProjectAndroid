@@ -47,8 +47,8 @@ public class DetailsActivity extends AppCompatActivity implements
 
     private void populateFromTable(){
         mDatabaseHelper = new DatabaseHelper(this);
-        Cursor data = mDatabaseHelper.getItemShopData();
-        //Cursor data = mDatabaseHelper.getItemShopDataInnerJoin();
+        //Cursor data = mDatabaseHelper.getItemShopData();
+        Cursor data = mDatabaseHelper.getItemShopDataInnerJoin();
         shopClassItems = new ArrayList<ShopClass>();
 
         while(data.moveToNext()) {
@@ -56,6 +56,7 @@ public class DetailsActivity extends AppCompatActivity implements
             String item = data.getString(1);
             String items = data.getString(5);
             address = data.getString(7);
+
             ShopClass itemss = new ShopClass(item, items);
             shopClassItems.add(itemss); //get data from coloum 1 and add to arraylist
         }

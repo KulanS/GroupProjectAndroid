@@ -84,9 +84,10 @@ public class ViewListActivity extends AppCompatActivity {
         if(CheckNetworkClass.isInternetAvailable(ViewListActivity.this)){
             //process.execute();    //optional method
             //process.getJSON("https://api.myjson.com/bins/19mp3b");
-            //process.getJSON("http://192.168.43.80/ishop/retrieve.php");
-            processItem.getJSON("https://api.myjson.com/bins/6axhz");//for item
-            processShop.getJSON("https://api.myjson.com/bins/gkgqn");//for shop
+            processItem.getJSON("http://192.168.43.76/ishop/retrieveitem.php");
+            processShop.getJSON("http://192.168.43.76/ishop/retrieveshop.php");
+            //processItem.getJSON("https://api.myjson.com/bins/6axhz");//for item
+            //processShop.getJSON("https://api.myjson.com/bins/gkgqn");//for shop
         }else{
             toastMessage("No Internet Connection");
         }

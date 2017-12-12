@@ -25,9 +25,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         init();
         clickCart();
-        clickShops();
+       /* clickShops();
         clickProfile();
-        clickSettings();
+        clickSettings();*/
         clickLogOut();
 
 
@@ -36,8 +36,8 @@ public class MainMenuActivity extends AppCompatActivity {
     private void init(){ //mapping xml and java
         btnCart = (Button)findViewById(R.id.btnCart);
         btnShops = (Button)findViewById(R.id.btnShops);
-        btnProfile = (Button)findViewById(R.id.btnProfile);
-        btnSettings = (Button)findViewById(R.id.btnSettings);
+        //btnProfile = (Button)findViewById(R.id.btnProfile);
+        //btnSettings = (Button)findViewById(R.id.btnSettings);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
     }
 
@@ -53,7 +53,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void clickShops(){
+    /*private void clickShops(){
         btnShops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,9 +62,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
-    private void clickProfile(){
+    /*private void clickProfile(){
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +84,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
     private void clickLogOut(){
         btnLogOut.setOnClickListener(new View.OnClickListener() {

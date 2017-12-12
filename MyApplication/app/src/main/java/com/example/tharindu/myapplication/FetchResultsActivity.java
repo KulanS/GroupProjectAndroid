@@ -47,7 +47,7 @@ public class FetchResultsActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Intent j = new Intent(FetchResultsActivity.this, CorrectionActivity.class);
-                                    startActivity(j);
+                                    //startActivity(j);
                                 }
                             })
                             .create()

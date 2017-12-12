@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 public class LoginReq extends StringRequest {
-    private static  final String LOGIN_REQUEST_URL=" http://192.168.1.2/Tlog/login.php";
+    private static  final String LOGIN_REQUEST_URL=" http://192.168.43.76/Tlog/login.php";
     private Map<String , String> params;
 
 

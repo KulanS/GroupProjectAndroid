@@ -54,7 +54,7 @@ public class GetShopClass extends AsyncTask<Void, Void, Void> {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                FetchResultsActivity.tvShowJason.setText(s);
+                //FetchResultsActivity.tvShowJason.setText(s);
 
                 try {
 

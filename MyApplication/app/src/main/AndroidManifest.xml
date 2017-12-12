@@ -38,9 +38,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".CartActivity" />
-        <activity android:name=".ShopsActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".SettingsActivity" />
         <activity android:name=".CreateNewListActivity" />
         <activity android:name=".ViewListActivity" />
         <activity android:name=".FetchResultsActivity" />

@@ -62,6 +62,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:background="@drawable/btn"
             android:text="Add" />
 
         <Button
@@ -72,6 +73,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/btnAdds"
             android:layout_toRightOf="@+id/btnAdds"
+            android:background="@drawable/btn"
             android:text="Delete" />
 
         <Button
@@ -81,6 +83,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btnDelete"
+            android:background="@drawable/btn"
             android:text="Update" />
 
         <Button
@@ -92,6 +95,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btnUpdate"
+            android:background="@drawable/btn"
             android:text="Clear" />
 
     </RelativeLayout>
@@ -127,6 +131,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/btn"
         app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

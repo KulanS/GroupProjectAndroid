@@ -221,7 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor getItemShopDataInnerJoin(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME_2 + ", " + TABLE_NAME_3 + " [INNER] JOIN " + TABLE_NAME_3 + " ON " + TABLE_NAME_2 + "." + COL4 + " = " + TABLE_NAME_3 + "." + COL5;// + " GROUP BY " + TABLE_NAME_3 + "." + COL5;
+        String query = "SELECT * FROM " + TABLE_NAME_2 + " JOIN " + TABLE_NAME_3 + " ON " + TABLE_NAME_2 + "." + COL4 + " = " + TABLE_NAME_3 + "." + COL5;// + " GROUP BY " + TABLE_NAME_3 + "." + COL5;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
